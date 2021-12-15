@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SingletonMono<T> : MonoBehaviour where T : MonoBehaviour
 {
@@ -16,10 +16,5 @@ public class SingletonMono<T> : MonoBehaviour where T : MonoBehaviour
 
             return _instance;
         }
-    }
-
-    private void Awake()
-    {
-        _instance = this as T;
     }
 }

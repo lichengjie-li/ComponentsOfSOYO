@@ -31,7 +31,7 @@ public class CameraAdapter : SingletonMono<CameraAdapter>
 
     private void Update()
     {
-        Ratio = (float)Screen.width / Screen.height;
+        Ratio = (float) Screen.width / Screen.height;
 
         switch (cameraProjection)
         {
@@ -62,8 +62,7 @@ public class CameraAdapter : SingletonMono<CameraAdapter>
 
     private void OnRatioChanged(float value)
     {
-        if (null == onRatioChangedEvent) return;
-        onRatioChangedEvent.Raise(value);
+        onRatioChangedEvent?.Raise(value);
     }
 }
 

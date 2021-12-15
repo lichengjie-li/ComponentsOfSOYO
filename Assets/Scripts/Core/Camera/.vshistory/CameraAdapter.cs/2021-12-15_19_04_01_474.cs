@@ -19,7 +19,7 @@ public class CameraAdapter : SingletonMono<CameraAdapter>
     [SerializeField] private FloatEventChannelSO onRatioChangedEvent;
 
     private EventListener<float> listener;
-    public float Ratio { get; private set; } = -1;
+    public float Ratio { get; private set; }/* = -1*/;
 
     public Camera MainCam { get; private set; }
     private static float Scale => -BgSize / 2 / Mathf.Tan(30 * Mathf.Deg2Rad);
@@ -31,7 +31,7 @@ public class CameraAdapter : SingletonMono<CameraAdapter>
 
     private void Update()
     {
-        Ratio = (float)Screen.width / Screen.height;
+        Ratio = (float) Screen.width / Screen.height;
 
         switch (cameraProjection)
         {
@@ -62,7 +62,6 @@ public class CameraAdapter : SingletonMono<CameraAdapter>
 
     private void OnRatioChanged(float value)
     {
-        if (null == onRatioChangedEvent) return;
         onRatioChangedEvent.Raise(value);
     }
 }

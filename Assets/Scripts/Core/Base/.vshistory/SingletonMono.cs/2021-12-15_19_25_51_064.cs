@@ -9,17 +9,12 @@ public class SingletonMono<T> : MonoBehaviour where T : MonoBehaviour
         get
         {
             if (_instance != null) return _instance;
-            var go = new GameObject {name = typeof(T).ToString()};
+            var go = new GameObject { name = typeof(T).ToString() };
 
             DontDestroyOnLoad(go);
             _instance = go.AddComponent<T>();
 
             return _instance;
         }
-    }
-
-    private void Awake()
-    {
-        _instance = this as T;
     }
 }

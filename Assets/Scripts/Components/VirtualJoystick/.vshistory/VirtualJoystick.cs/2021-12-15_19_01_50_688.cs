@@ -37,8 +37,8 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     /// <summary>
     /// 点击区域的大小
     /// </summary>
-    public Vector2 DragAreaAnchorsMin;
-    public Vector2 DragAreaAnchorsMax;
+    public Vector2 DragAreaAnchorsMin = new Vector2();
+    public Vector2 DragAreaAnchorsMax = new Vector2();
 
     /// <summary>
     /// 摇杆底图
@@ -93,13 +93,10 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     /// <summary>
     /// 摇杆的默认位置
     /// </summary>
-    private Vector2 Sticktemporary()
-    {
-        Debug.Log("  ");
-        return Adapter.SetAdapterValue(CameraAdapter.GetInstance.Ratio < 1,
-               new Vector2(0, stickBackground.sizeDelta.y),
-               new Vector2(0, stickBackground.sizeDelta.y));
-    }
+    private Vector2 Sticktemporary
+        => Adapter.SetAdapterValue(CameraAdapter.GetInstance.Ratio < 1,
+           new Vector2(0, stickBackground.sizeDelta.y * 0.6f),
+           new Vector2(0, stickBackground.sizeDelta.y / 1.5f));
 
     /// <summary>
     /// 摇杆的大小
@@ -136,7 +133,7 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     {
         stickBackground.sizeDelta = JoyStickScale(1);
         dragImage.sizeDelta = JoyStickScale(2);
-        
+        stickBackground.transform.localPosition = Sticktemporary;
         stickOrigin = RectTransformUtility.WorldToScreenPoint(null, stickBackground.transform.position);
         if (!isDrag)
         {
@@ -180,7 +177,7 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public void OnPointerDown(PointerEventData eventData)
     {
         isDrag = false;
-        stickBackground.transform.localPosition = Sticktemporary();
+
         if (!drag)
         {
             Vector2 pointer = eventData.position;

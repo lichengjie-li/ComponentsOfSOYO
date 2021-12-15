@@ -26,6 +26,7 @@ public class CameraAdapter : SingletonMono<CameraAdapter>
 
     private void Awake()
     {
+        Debug.Log("1");
         MainCam = Camera.main;
     }
 

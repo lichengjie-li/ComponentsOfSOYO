@@ -136,7 +136,7 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     {
         stickBackground.sizeDelta = JoyStickScale(1);
         dragImage.sizeDelta = JoyStickScale(2);
-        
+        stickBackground.transform.localPosition = Sticktemporary();
         stickOrigin = RectTransformUtility.WorldToScreenPoint(null, stickBackground.transform.position);
         if (!isDrag)
         {
@@ -180,7 +180,7 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public void OnPointerDown(PointerEventData eventData)
     {
         isDrag = false;
-        stickBackground.transform.localPosition = Sticktemporary();
+
         if (!drag)
         {
             Vector2 pointer = eventData.position;

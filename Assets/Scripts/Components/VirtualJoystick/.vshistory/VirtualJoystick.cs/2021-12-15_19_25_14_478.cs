@@ -96,7 +96,7 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     private Vector2 Sticktemporary()
     {
         Debug.Log("  ");
-        return Adapter.SetAdapterValue(CameraAdapter.GetInstance.Ratio < 1,
+        return Adapter.SetAdapterValue(CameraAdapter.GetInstance().Ratio < 1,
                new Vector2(0, stickBackground.sizeDelta.y),
                new Vector2(0, stickBackground.sizeDelta.y));
     }
@@ -136,7 +136,7 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     {
         stickBackground.sizeDelta = JoyStickScale(1);
         dragImage.sizeDelta = JoyStickScale(2);
-        
+        stickBackground.transform.localPosition = Sticktemporary();
         stickOrigin = RectTransformUtility.WorldToScreenPoint(null, stickBackground.transform.position);
         if (!isDrag)
         {
@@ -180,7 +180,7 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     public void OnPointerDown(PointerEventData eventData)
     {
         isDrag = false;
-        stickBackground.transform.localPosition = Sticktemporary();
+
         if (!drag)
         {
             Vector2 pointer = eventData.position;
