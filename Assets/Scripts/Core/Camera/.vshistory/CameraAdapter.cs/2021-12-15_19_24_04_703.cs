@@ -24,9 +24,8 @@ public class CameraAdapter : SingletonMono<CameraAdapter>
     public Camera MainCam { get; private set; }
     private static float Scale => -BgSize / 2 / Mathf.Tan(30 * Mathf.Deg2Rad);
 
-    protected override void Awake()
+    private void Awake()
     {
-        base.Awake();
         MainCam = Camera.main;
     }
 

@@ -48,21 +48,13 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     /// 摇杆拖拽点
     /// </summary>
     private RectTransform dragImage;
-    /// <summary>
-    /// 摇杆所在画布
-    /// </summary>
-    Vector2 parentCanvasSize;
-
-    /// <summary>
-    /// 摇杆原点
-    /// </summary>
-    Vector2 stickOrigin;
 
     private void Awake()
     {
         // 获取摇杆底图的位置和拖拽图片的位置
         stickBackground = transform.GetChild(0).GetComponent<RectTransform>();
         dragImage = stickBackground.transform.GetChild(0).GetComponent<RectTransform>();
+        parentCanvas = GetComponentInParent<RectTransform>();
 
         // 根据摇杆操作模式调整可点击区域的大小
         switch (dragType)
@@ -83,24 +75,38 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     /// </summary>
     private float radius => (stickBackground.sizeDelta.x - dragImage.sizeDelta.x) / 2;
 
+    /// <summary>
+    /// 摇杆原点
+    /// </summary>
+    Vector2 stickOrigin;
 
+    /// <summary>
+    /// 摇杆所在画布
+    /// </summary>
+    RectTransform parentCanvas;
 
     /// <summary>
     /// 摇杆的默认位置
     /// </summary>
-    private Vector2 Sticktemporary =>
-        Adapter.SetAdapterValue(CameraAdapter.GetInstance.Ratio < 1,
-            new Vector2(0, 0),
-            new Vector2(0, 0));
+    private Vector2 Sticktemporary
+    {
+        get
+        {
+            return Adapter.SetAdapterValue(CameraAdapter.GetInstance.Ratio < 1,
+                   new Vector2(0, stickBackground.sizeDelta.y),
+                   new Vector2(0, stickBackground.sizeDelta.y));
+        }
+    }
 
     /// <summary>
     /// 摇杆的大小
     /// </summary>
     private Vector2 JoyStickScale(int i)
     {
-        return Adapter.SetAdapterValue(CameraAdapter.GetInstance.Ratio < 1,
-              new Vector2(parentCanvasSize.x / (3 * i), parentCanvasSize.x / (3 * i)),
-              new Vector2(parentCanvasSize.y / (4 * i), parentCanvasSize.y / (4 * i)));
+        if (Screen.width > Screen.height)
+            return new Vector2(parentCanvas.sizeDelta.y / (4 * i), parentCanvas.sizeDelta.y / (4 * i));
+        else
+            return new Vector2(parentCanvas.sizeDelta.x / (3 * i), parentCanvas.sizeDelta.x / (3 * i));
     }
 
     /// <summary>
@@ -117,14 +123,15 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     /// </summary>
     bool drag = false;
 
+    void Start()
+    {
+
+    }
+
     void Update()
     {
-        // 实时获取画布的大小
-        parentCanvasSize = GetComponentInParent<Canvas>().GetComponent<RectTransform>().sizeDelta;
-        // 实时设置摇杆大小
         stickBackground.sizeDelta = JoyStickScale(1);
         dragImage.sizeDelta = JoyStickScale(2);
-
         stickBackground.transform.localPosition = Sticktemporary;
         stickOrigin = RectTransformUtility.WorldToScreenPoint(null, stickBackground.transform.position);
         if (!isDrag)

@@ -18,6 +18,8 @@ public class SingletonMono<T> : MonoBehaviour where T : MonoBehaviour
         }
     }
 
+    // public static T GetInstance { get; private set; }
+
     protected virtual void Awake()
     {
         _instance = this as T;

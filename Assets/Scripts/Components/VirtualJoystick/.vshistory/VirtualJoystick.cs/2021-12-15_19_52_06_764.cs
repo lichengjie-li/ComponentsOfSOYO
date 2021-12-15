@@ -63,6 +63,8 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
         // 获取摇杆底图的位置和拖拽图片的位置
         stickBackground = transform.GetChild(0).GetComponent<RectTransform>();
         dragImage = stickBackground.transform.GetChild(0).GetComponent<RectTransform>();
+        // 获取画布的大小
+        parentCanvasSize = GetComponentInParent<Canvas>().GetComponent<RectTransform>().sizeDelta;
 
         // 根据摇杆操作模式调整可点击区域的大小
         switch (dragType)
@@ -90,8 +92,8 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     /// </summary>
     private Vector2 Sticktemporary =>
         Adapter.SetAdapterValue(CameraAdapter.GetInstance.Ratio < 1,
-            new Vector2(0, 0),
-            new Vector2(0, 0));
+            new Vector2(0, stickBackground.sizeDelta.y),
+            new Vector2(0, stickBackground.sizeDelta.y));
 
     /// <summary>
     /// 摇杆的大小
@@ -117,14 +119,15 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     /// </summary>
     bool drag = false;
 
+    void Start()
+    {
+
+    }
+
     void Update()
     {
-        // 实时获取画布的大小
-        parentCanvasSize = GetComponentInParent<Canvas>().GetComponent<RectTransform>().sizeDelta;
-        // 实时设置摇杆大小
         stickBackground.sizeDelta = JoyStickScale(1);
         dragImage.sizeDelta = JoyStickScale(2);
-
         stickBackground.transform.localPosition = Sticktemporary;
         stickOrigin = RectTransformUtility.WorldToScreenPoint(null, stickBackground.transform.position);
         if (!isDrag)

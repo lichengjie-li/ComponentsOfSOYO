@@ -117,14 +117,17 @@ public class VirtualJoystick : MonoBehaviour, IPointerDownHandler, IPointerUpHan
     /// </summary>
     bool drag = false;
 
+    void Start()
+    {
+
+    }
+
     void Update()
     {
-        // 实时获取画布的大小
+        // 获取画布的大小
         parentCanvasSize = GetComponentInParent<Canvas>().GetComponent<RectTransform>().sizeDelta;
-        // 实时设置摇杆大小
         stickBackground.sizeDelta = JoyStickScale(1);
         dragImage.sizeDelta = JoyStickScale(2);
-
         stickBackground.transform.localPosition = Sticktemporary;
         stickOrigin = RectTransformUtility.WorldToScreenPoint(null, stickBackground.transform.position);
         if (!isDrag)

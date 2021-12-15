@@ -337,10 +337,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 269a015e494b65e48aa2540a76f18c72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  dragType: 0
+  dragType: 1
   DragAreaAnchorsMin: {x: 0, y: 0}
   DragAreaAnchorsMax: {x: 1, y: 0.5}
-  controlCanvas: {fileID: 2130218009}
 --- !u!222 &859410168
 CanvasRenderer:
   m_ObjectHideFlags: 0
