@@ -62,6 +62,7 @@ public class CameraAdapter : SingletonMono<CameraAdapter>
 
     private void OnRatioChanged(float value)
     {
+        if (null == onRatioChangedEvent) return;
         onRatioChangedEvent.Raise(value);
     }
 }
