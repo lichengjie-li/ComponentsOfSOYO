@@ -4,7 +4,7 @@ public class SingletonMono<T> : MonoBehaviour where T : MonoBehaviour
 {
     public static T GetInstance { get; private set; }
 
-    private void Awake()
+    protected virtual void Awake()
     {
         GetInstance = this as T;
     }
