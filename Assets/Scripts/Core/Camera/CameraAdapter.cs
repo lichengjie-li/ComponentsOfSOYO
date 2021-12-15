@@ -19,7 +19,7 @@ public class CameraAdapter : SingletonMono<CameraAdapter>
     [SerializeField] private FloatEventChannelSO onRatioChangedEvent;
 
     private EventListener<float> listener;
-    private float ratio = -1;
+    public float Ratio { get; private set; } = -1;
 
     public Camera MainCam { get; private set; }
     private static float Scale => -BgSize / 2 / Mathf.Tan(30 * Mathf.Deg2Rad);
@@ -31,22 +31,22 @@ public class CameraAdapter : SingletonMono<CameraAdapter>
 
     private void Update()
     {
-        ratio = (float) Screen.width / Screen.height;
+        Ratio = (float) Screen.width / Screen.height;
 
         switch (cameraProjection)
         {
             case CameraProjection.Perspective:
-                var z = ratio < 1 ? Scale : Scale * Screen.height / Screen.width;
+                var z = Ratio < 1 ? Scale : Scale * Screen.height / Screen.width;
                 transform.position = new Vector3(0, 0, z);
                 break;
             case CameraProjection.Orthographic:
-                MainCam.orthographicSize = ratio < 1 ? BgSize / Proportion : BgSize / Proportion / ratio;
+                MainCam.orthographicSize = Ratio < 1 ? BgSize / Proportion : BgSize / Proportion / Ratio;
                 break;
             default:
                 throw new ArgumentOutOfRangeException();
         }
 
-        listener.Value = ratio;
+        listener.Value = Ratio;
     }
 
     private void OnEnable()
